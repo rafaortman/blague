@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blague</title>
+<meta name="description" content="Blague — banda. Ouça o álbum de estreia em todas as plataformas.">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #121210;
+    --bg-alt: #1b1b18;
+    --concrete: #a9a496;
+    --concrete-dim: #6f6b60;
+    --ink: #efece3;
+    --accent: #c7d840;
+    --border: rgba(239, 236, 227, 0.12);
+    --max-w: 880px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: linear-gradient(rgba(18,18,16,0.6), rgba(18,18,16,0.6)),
+                url('assets/img/hero-bg.jpg') center 30% / cover no-repeat fixed;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      background-image: linear-gradient(to bottom, rgba(18,18,16,0.6) 0%, rgba(18,18,16,0.6) 55%, var(--bg) 100%),
+                         url('assets/img/hero-bg.jpg');
+      background-size: contain, contain;
+      background-position: top center, top center;
+      background-repeat: no-repeat, no-repeat;
+      background-attachment: scroll, scroll;
+    }
+  }
+
+  h1, h2, h3 {
+    font-family: 'Archivo Black', 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ALBUM SECTION */
+  .album {
+    padding: 40vw 0 80px;
+  }
+
+  .eyebrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .album-title {
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    text-transform: uppercase;
+  }
+
+  .album-meta {
+    color: var(--concrete-dim);
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+
+  .album-head {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    margin-bottom: 40px;
+  }
+
+  .album-cover {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  /* CTA PLATFORM BUTTONS */
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+    margin-top: 28px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .cta-btn:hover {
+    opacity: 0.7;
+  }
+
+  .cta-btn svg {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    fill: #fff;
+    color: #fff;
+  }
+
+  /* TRACKLIST */
+  .tracklist {
+    margin-top: 56px;
+    border-top: 1px solid var(--border);
+  }
+
+  .track {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .track-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 0;
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 1.05rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .track-num {
+    color: var(--concrete-dim);
+    font-variant-numeric: tabular-nums;
+    width: 1.6em;
+    flex-shrink: 0;
+  }
+
+  .track-name {
+    flex: 1;
+  }
+
+  .track-toggle {
+    color: var(--concrete-dim);
+    font-size: 1.3rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .track.open .track-toggle {
+    transform: rotate(45deg);
+    color: var(--accent);
+  }
+
+  .track-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+  }
+
+  .track.open .track-body {
+    grid-template-rows: 1fr;
+  }
+
+  .track-body-inner {
+    overflow: hidden;
+  }
+
+  .track-content {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 4px 0 28px;
+  }
+
+  .track-lyrics, .track-credits {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .track-content h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--concrete-dim);
+    margin-bottom: 10px;
+  }
+
+  .lyrics-text {
+    white-space: pre-line;
+    color: var(--concrete);
+    font-size: 0.95rem;
+  }
+
+  .lyrics-placeholder {
+    color: var(--concrete-dim);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
+  .credits-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+  }
+
+  .credits-list li {
+    padding: 4px 0;
+    color: var(--concrete);
+  }
+
+  .credits-list b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .album-credit {
+    margin: 24px 0 0;
+    color: var(--concrete-dim);
+    font-size: 0.85rem;
+  }
+
+  /* VIDEO */
+  .video-section {
+    padding: 0 0 80px;
+  }
+
+  .video-embed {
+    position: relative;
+    padding-top: 56.25%;
+    border: 1px solid var(--border);
+  }
+
+  .video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* PHOTO STRIP */
+  .photo-strip {
+    display: flex;
+    gap: 0;
+  }
+
+  .photo-strip img {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-wrap {
+    padding-bottom: 100px;
+  }
+
+  @media (max-width: 560px) {
+    .photo-strip { flex-direction: column; }
+  }
+
+  @media (max-width: 560px) {
+    .album-head { flex-direction: column; gap: 20px; }
+    .album-cover { width: 140px; height: 140px; }
+    .track-content { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="album" id="blague">
+  <div class="wrap">
+    <div class="album-head">
+      <img class="album-cover" src="assets/img/capa-blague.jpg" alt="Capa do álbum Blague">
+      <div>
+        <span class="eyebrow">Álbum de estreia</span>
+        <h2 class="album-title">Blague</h2>
+        <p class="album-meta">Gravado em 2011 · Lançado em 2024 · 9 faixas</p>
+
+        <div class="cta-row" id="cta-row"></div>
+      </div>
+    </div>
+
+    <div class="tracklist" id="tracklist"></div>
+
+    <p class="album-credit">Engenharia de som e técnica: Marcito Vianna</p>
+  </div>
+</section>
+
+<section class="video-section">
+  <div class="wrap">
+    <div class="video-embed">
+      <iframe src="https://www.youtube.com/embed/u76wvAsE_XY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Blague - clipe"></iframe>
+    </div>
+  </div>
+</section>
+
+<div class="wrap photo-wrap">
+  <div class="photo-strip">
+    <img src="assets/img/strip-3.jpg" alt="Rafa Ortman e Olivia Rangel">
+    <img src="assets/img/strip-2.jpg" alt="Banda em sessão de estúdio">
+    <img src="assets/img/strip-1.jpg" alt="Rafa Ortman tocando baixo">
+  </div>
+</div>
+
+<script>
+  const PLATFORMS = [
+    {
+      name: 'Spotify',
+      url: 'https://open.spotify.com/album/4yd7KT3IukOCGnSn0CG7FD',
+      icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>',
+    },
+    {
+      name: 'Apple Music',
+      url: 'https://music.apple.com/br/album/1793261712',
+      icon: '<svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.801.42.127.856.187 1.293.228.555.053 1.11.06 1.667.06h11.03a12.5 12.5 0 001.57-.1c.822-.106 1.596-.35 2.295-.81a5.046 5.046 0 001.88-2.207c.186-.42.293-.87.37-1.324.113-.675.138-1.358.137-2.04-.002-3.8 0-7.595-.003-11.393zm-6.423 3.99v5.712c0 .417-.058.827-.244 1.206-.29.59-.76.962-1.388 1.14-.35.1-.706.157-1.07.173-.95.045-1.773-.6-1.943-1.536a1.88 1.88 0 011.038-2.022c.323-.16.67-.25 1.018-.324.378-.082.758-.153 1.134-.24.274-.063.457-.23.51-.516a.904.904 0 00.02-.193c0-1.815 0-3.63-.002-5.443a.725.725 0 00-.026-.185c-.04-.15-.15-.243-.304-.234-.16.01-.318.035-.475.066-.76.15-1.52.303-2.28.456l-2.325.47-1.374.278c-.016.003-.032.01-.048.013-.277.077-.377.203-.39.49-.002.042 0 .086 0 .13-.002 2.602 0 5.204-.003 7.805 0 .42-.047.836-.215 1.227-.278.64-.77 1.04-1.434 1.233-.35.1-.71.16-1.075.172-.96.036-1.755-.6-1.92-1.544-.14-.812.23-1.685 1.154-2.075.357-.15.73-.232 1.108-.31.287-.06.575-.116.86-.177.383-.083.583-.323.6-.714v-.15c0-2.96 0-5.922.002-8.882 0-.123.013-.25.042-.37.07-.285.273-.448.546-.518.255-.066.515-.112.774-.165.733-.15 1.466-.296 2.2-.444l2.27-.46c.67-.134 1.34-.27 2.01-.403.22-.043.442-.088.663-.106.31-.025.523.17.554.482.008.073.012.148.012.223.002 1.91.002 3.822 0 5.732z"/></svg>',
+    },
+    {
+      name: 'YouTube Music',
+      url: 'https://music.youtube.com/playlist?list=OLAK5uy_nqOiUtVQDy-vzP6xJGF-hBoZJ2EwXltSA',
+      icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></svg>',
+    },
+    {
+      name: 'Deezer',
+      url: 'https://www.deezer.com/album/704631981',
+      icon: '<svg viewBox="0 0 24 24"><path d="M.693 10.024c.381 0 .693-1.256.693-2.807 0-1.55-.312-2.807-.693-2.807C.312 4.41 0 5.666 0 7.217s.312 2.808.693 2.808ZM21.038 1.56c-.364 0-.684.805-.91 2.096C19.765 1.446 19.184 0 18.526 0c-.78 0-1.464 2.036-1.784 5-.312-2.158-.788-3.536-1.325-3.536-.745 0-1.386 2.704-1.62 6.472-.442-1.932-1.083-3.145-1.793-3.145s-1.35 1.213-1.793 3.145c-.242-3.76-.874-6.463-1.628-6.463-.537 0-1.013 1.378-1.325 3.535C6.938 2.036 6.262 0 5.474 0c-.658 0-1.247 1.447-1.602 3.665-.217-1.291-.546-2.105-.91-2.105-.675 0-1.221 2.807-1.221 6.272 0 3.466.546 6.273 1.221 6.273.277 0 .537-.476.736-1.273.32 2.928.996 4.938 1.776 4.938.606 0 1.143-1.204 1.507-3.11.251 3.622.875 6.195 1.602 6.195.46 0 .875-1.023 1.187-2.677C10.142 21.6 11 24 12.004 24c1.005 0 1.863-2.4 2.235-5.822.312 1.654.727 2.677 1.186 2.677.728 0 1.352-2.573 1.603-6.195.364 1.906.9 3.11 1.507 3.11.78 0 1.455-2.01 1.775-4.938.208.797.46 1.273.737 1.273.675 0 1.22-2.807 1.22-6.273-.008-3.457-.553-6.272-1.23-6.272ZM23.307 10.024c.381 0 .693-1.256.693-2.807 0-1.55-.312-2.807-.693-2.807-.381 0-.693 1.256-.693 2.807s.312 2.808.693 2.808Z"/></svg>',
+    },
+    {
+      name: 'Qobuz',
+      url: 'https://open.qobuz.com/album/k9yqlflhjffbc',
+      icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.8"/><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="currentColor">Q</text></svg>',
+    },
+  ];
+
+  // Créditos: um nome por linha, com todos os papéis dele naquela faixa.
+  // Ordem fixa: Rafa Ortman sempre 1º, Olivia Rangel sempre 2ª (quando presente), Tiago Torres sempre por último (quando presente).
+  const TRACKS = [
+    {
+      title: 'Inês',
+      lyrics: `Fui, fui ver como estava a minha cabeça
+Por favor me esqueça
+Pra mim não dá mais pra agüentar você
+Por muito menos deixei Solange e Maria
+Aparecida num hotel de Aracaju
+
+Eu fiz todos os seus desejos
+As sandálias, os passeios,
+Vim até morar em Salvador
+E essa foi minha desgraça
+Quero um copo de cachaça
+E o Cristo Redentor
+
+Preste bastante atenção
+Já não me importa o que você fez
+Tudo não passou de ilusão
+Nunca mais direi seu nome outra vez
+
+Que rancor, você não passa de um ingrato
+E só faz cuspir no prato
+Em que comeu, e não lavou
+Eu estou arrependida
+E até um tanto constrangida
+Eu lhe peço por favor:
+
+Me perdoa, foi à toa, uma mera distração
+Eu não tive a intenção, não queria magoar
+Comumente, comumente, eu deixaria isso passar
+Mas dessa vez já não vai dar, preste bastante atenção
+
+Sim, preste bastante atenção
+Só vou falar mais uma vez,
+Pouco me importa sua intenção
+Nunca mais direi seu nome de novo, Inês`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'violão', 'guitarra'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Gabriel Muzak', roles: ['flauta'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'Cacos',
+      lyrics: `Vejo gente na calçada
+Tanta gente misturada
+Que eu não sei o que pensar ou fazer
+Gente de todos os tipos
+Do comum ao esquisito
+E eu não sei o que pensar ou fazer
+
+Se vou ou se fico
+Se me calo ou grito
+
+Mesmo de óculos escuros
+É possível ver o muro
+Que cada um ergue em torno de si
+O que mais me angustia
+É que também sigo a mesma trilha
+E no meio do povo eu quero sumir
+
+Eu sou um indivíduo
+Sem credo ou tribo
+
+Cacos de pessoas afoitas
+Pedaços de pessoas aflitas`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'guitarra'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'Álcool e Anfetamina',
+      lyrics: `Todo esforço em dar sentido
+A uma vida absurda e banal
+É inútil, não há saída
+
+Dessa existência artificial
+No trabalho, a Ritalina
+Pra dormir, um Rhoypinol
+Álcool e anfetamina
+Até o raiar do sol
+
+Toda essa matéria instrutiva
+Do pós doutorado ao maternal
+Tem uma simples missão objetiva
+Adestrar o corpo social
+
+Sonhos de concreto armado
+De ferro e aço é a poesia
+E a gente vê nascer quadrado
+Todo e cada novo dia`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'guitarra', 'baixo'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Antônio Paoli', roles: ['teclado'] },
+        { name: 'Tiago Torres', roles: ['bateria eletrônica'] },
+      ],
+    },
+    {
+      title: 'Você Não Tem Maldade',
+      lyrics: `Nesse sonho que eu tive com você, você me ouvia
+Nesse sonho que eu tive com você
+Você falava e eu escutava o que você dizia
+Como eu dizia, nesse sonho...
+O que era mesmo que eu dizia?
+Nesse sonho eu falava…
+Você apenas sorria
+
+Foi nesse sonho mesmo...
+Ou nesse outro aqui?
+Que observando todas as suas expressões e entonação de voz, falei...
+"Quem vê você agora, pode achar que você
+Não tem maldade"
+
+Mas você tem, tem si
+Você sempre foi má pra mim`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'violão'] },
+        { name: 'Gabriel Muzak', roles: ['guitarra'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'É Tudo Igual',
+      lyrics: `Com este samba eu não pretendo nada mais que preencher
+O momento de silêncio
+E desconforto ao dividir o mesmo espaço
+Você pode argumentar que essa é a
+primeira vez que ficamos obrigados
+A conviver e partilhar
+
+Liga a TV, troque o canal
+É tudo igual. É tudo igual
+
+Você aceita um café, uma água gelada
+Fica vontade à vontade, você está em casa
+Um sorriso nervoso minha cara estampava, enquanto minhas mãos…
+Tateavam os bolsos e a mente divagava.
+
+Liga a TV, troque o canal
+É tudo igual. É tudo igual`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'guitarra', 'violão'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Tiago Torres', roles: ['percussão'] },
+      ],
+    },
+    {
+      title: 'Feliz',
+      lyrics: `Uma visão
+Você girando
+Na palma da mão
+O meu pião
+Rodopiando
+Em um turbilhão
+
+E está tão feliz
+
+Uma prisão
+Você sorrindo
+Na escuridão
+Uma canção
+Você cantando
+O nosso refrão
+
+E está tão feliz`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'violão'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Rodrigo Melão', roles: ['piano'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'Paisagem Provisória',
+      lyrics: `Ao olhar o horizonte
+Mira as casas os morros ali defronte
+Da tua vista
+Numera, etiqueta, faz uma lista
+Dos objetos
+Que não viram um só na massa de concreto
+E põe na memória
+É paisagem provisória
+
+Quando o sono chega
+E se por ventura você sonhar
+Com um futuro
+Cujo fim não se mostre tão prematuro
+Não deixa passar
+Pela manhã já começa a mudar
+Toda história
+E a paisagem provisória
+
+Ao olhar a mulher
+Que você conquistou ela tudo que quer
+Numa pessoa
+É bonita, gostosa, ainda é gente boa
+Fica sabendo
+Tudo é breve não há sentimento
+Nessa viagem
+É provisória a paisagem
+
+Os monumentos, as construções
+Os pensamentos, as equações
+Todos os livros / e soluções
+qualquer abrigo / das emoções
+É paisagem provisória.`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'guitarra', 'violão'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'Estranhos',
+      lyrics: `Tava tão estranho naquele lugar
+Eu, você e mais alguém, não consigo lembrar
+Você andava pra lá e pra cá
+Falava sozinha, tão ansiosa por chegar
+
+"Aonde você foi?
+Não sei, não sei..."
+
+Cantava você sentindo arrepio
+Ofereci um casaco, "não obrigada, não estou com frio"
+
+Também não sinto falta de ti
+Mas sinto saudades do tempo em que vivia aqui
+No meio dessa névoa, sorri
+À primeira pessoa que passou por mim
+
+Tava tão estranho naquele lugar
+E entre nós, nada mais a conversar
+Os meus pulmões enchiam de ar
+A voz morria e eu desviava o olhar
+
+Pra onde você vai depois daqui?
+Já passa da hora e eu preciso ir
+Fui até a porta e abri
+Valeu, boa sorte, que seja feliz`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'violão', 'guitarra'] },
+        { name: 'Olivia Rangel', roles: ['voz'] },
+        { name: 'Tiago Torres', roles: ['bateria'] },
+      ],
+    },
+    {
+      title: 'Palavra Minha',
+      lyrics: `Você
+Palavra minha
+Quero ser
+Palavra sua
+Eu sou sua
+Palavra minha
+
+Eu, palavra sozinha
+Eu, palavra só
+
+Eu sou seu
+Palavra minha
+Quero tu
+Palavra nua
+Como eu
+Palavra crua
+
+Palavra nua e crua
+Palavra nua e crua!`,
+      credits: [
+        { name: 'Rafa Ortman', roles: ['voz', 'baixo', 'violão'] },
+        { name: 'Rodrigo Melão', roles: ['voz', 'guitarra'] },
+        { name: 'Marcito Vianna', roles: ['escaleta'] },
+      ],
+    },
+  ];
+
+  function renderCTAs() {
+    const row = document.getElementById('cta-row');
+    row.innerHTML = PLATFORMS.map(p =>
+      `<a class="cta-btn" href="${p.url}" target="_blank" rel="noopener" aria-label="${p.name}" title="${p.name}">${p.icon}</a>`
+    ).join('');
+  }
+
+  function renderCreditsList(credits) {
+    return credits.map(c =>
+      `<li><b>${c.name}</b> (${c.roles.join(', ')})</li>`
+    ).join('');
+  }
+
+  function renderTracks() {
+    const list = document.getElementById('tracklist');
+    list.innerHTML = TRACKS.map((t, i) => `
+      <div class="track">
+        <button class="track-head" aria-expanded="false">
+          <span class="track-num">${String(i + 1).padStart(2, '0')}</span>
+          <span class="track-name">${t.title}</span>
+          <span class="track-toggle">+</span>
+        </button>
+        <div class="track-body">
+          <div class="track-body-inner">
+            <div class="track-content">
+              <div class="track-lyrics">
+                <h4>Letra</h4>
+                ${t.lyrics
+                  ? `<div class="lyrics-text">${t.lyrics}</div>`
+                  : `<p class="lyrics-placeholder">Letra em breve.</p>`}
+              </div>
+              <div class="track-credits">
+                <h4>Ficha técnica</h4>
+                <ul class="credits-list">${renderCreditsList(t.credits)}</ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.track-head').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const track = btn.closest('.track');
+        const isOpen = track.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+  }
+
+  renderCTAs();
+  renderTracks();
+</script>
+
+</body>
+</html>
