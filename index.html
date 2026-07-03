@@ -61,6 +61,55 @@
     padding: 0 24px;
   }
 
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .hero-title {
+    font-family: 'Archivo Black', 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 22vw, 15rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ink);
+    paint-order: stroke fill;
+    margin: 0;
+  }
+
+  .scroll-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .scroll-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(4px);
+  }
+
+  .scroll-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
   /* ALBUM SECTION */
   .album {
     padding: 40vw 0 80px;
@@ -301,6 +350,13 @@
 </style>
 </head>
 <body>
+
+<section class="hero">
+  <h1 class="hero-title">Blague</h1>
+  <a href="#blague" class="scroll-btn" aria-label="Rolar para o álbum">
+    <svg viewBox="0 0 24 24"><path d="M12 16 4 8h16z"/></svg>
+  </a>
+</section>
 
 <section class="album" id="blague">
   <div class="wrap">
