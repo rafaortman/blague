@@ -96,7 +96,7 @@
 
   .scroll-btn {
     position: absolute;
-    bottom: 20px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -105,21 +105,19 @@
     width: 48px;
     height: 48px;
     flex-shrink: 0;
-    border: 1px solid var(--border);
-    border-radius: 50%;
     color: var(--ink);
     text-decoration: none;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: color 0.15s ease, transform 0.15s ease;
   }
 
   .scroll-btn:hover {
-    border-color: var(--accent);
+    color: var(--accent);
     transform: translateX(-50%) translateY(4px);
   }
 
   .scroll-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 44px;
+    height: 44px;
     fill: currentColor;
   }
 
@@ -353,12 +351,19 @@
   }
 
   @media (max-width: 560px) {
-    .photo-strip { flex-direction: column; }
+    .photo-strip {
+      flex-direction: column;
+    }
+
+    .photo-wrap {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   @media (max-width: 560px) {
     .album-head { flex-direction: column; gap: 20px; }
-    .album-cover { width: 140px; height: 140px; }
+    .album-cover { width: 100%; height: auto; }
     .track-content { flex-direction: column; gap: 20px; }
   }
 </style>
@@ -370,7 +375,7 @@
 <section class="hero">
   <h1 class="hero-title">Blague</h1>
   <a href="#blague" class="scroll-btn" aria-label="Rolar para o álbum">
-    <svg viewBox="0 0 24 24"><path d="M12 16 4 8h16z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-80 200-360l56-57 184 184v-287h80v287l184-183 56 56L480-80Zm-40-520v-120h80v120h-80Zm0-200v-80h80v80h-80Z"/></svg>
   </a>
 </section>
 
