@@ -30,9 +30,13 @@
     --max-w: 880px;
   }
 
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
     margin: 0;
@@ -69,7 +73,9 @@
     font-weight: 700;
   }
 
-  a { color: inherit; }
+  a {
+    color: inherit;
+  }
 
   .wrap {
     max-width: var(--max-w);
@@ -93,13 +99,13 @@
     width: 100%;
     text-align: center;
     margin: 0;
-  }
 
-  .hero-title svg {
-    width: 100%;
-    height: auto;
-    opacity: .25;
-    color: var(--ink);
+    svg {
+      width: 100%;
+      height: auto;
+      opacity: .25;
+      color: var(--ink);
+    }
   }
 
   .sr-only {
@@ -128,17 +134,17 @@
     color: var(--ink);
     text-decoration: none;
     transition: color 0.15s ease, transform 0.15s ease;
-  }
 
-  .scroll-btn:hover {
-    color: var(--accent);
-    transform: translateX(-50%) translateY(4px);
-  }
+    &:hover {
+      color: var(--accent);
+      transform: translateX(-50%) translateY(4px);
+    }
 
-  .scroll-btn svg {
-    width: 44px;
-    height: 44px;
-    fill: currentColor;
+    svg {
+      width: 44px;
+      height: 44px;
+      fill: currentColor;
+    }
   }
 
   /* ALBUM SECTION */
@@ -146,41 +152,46 @@
     padding-top: 40px;
   }
 
-  .eyebrow {
-    color: var(--accent);
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-bottom: 10px;
-    display: block;
+  .album-meta-wrapper {
+    padding: 20px 0;
+
+    @media (max-width: 560px) {
+      margin-top: 10px;
+      padding: 0;
+    }
   }
 
   .album-title {
-    font-size: clamp(2.4rem, 7vw, 4rem);
+    font-size: 3rem;
+    line-height: 1;
     text-transform: none;
   }
 
   .album-meta {
-    color: var(--concrete-dim);
-    margin-top: 10px;
-    font-size: 0.95rem;
+    font-size: 0.7rem;
+    color: white;
+    margin: 20px 0;
   }
 
   .album-head {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: 32px;
-    align-items: flex-start;
-    flex-wrap: nowrap;
+    align-items: stretch;
     margin-bottom: 40px;
+
+    @media (max-width: 560px) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
   }
 
   .album-cover {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    background-image: url('assets/img/capa-blague.jpg');
+    background-size: cover;
+    background-position: center;
     flex-shrink: 0;
-    border: 1px solid var(--border);
   }
 
   /* CTA PLATFORM BUTTONS */
@@ -189,7 +200,6 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 22px;
-    margin-top: 28px;
   }
 
   .cta-btn {
@@ -198,28 +208,39 @@
     justify-content: center;
     text-decoration: none;
     transition: opacity 0.15s ease;
-  }
 
-  .cta-btn:hover {
-    opacity: 0.7;
-  }
+    &:hover {
+      opacity: 0.7;
+    }
 
-  .cta-btn svg {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    fill: #fff;
-    color: #fff;
+    svg {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      fill: #fff;
+      color: #fff;
+    }
   }
 
   /* TRACKLIST */
   .tracklist {
-    margin-top: 56px;
+    margin-top: 40px;
     border-top: 1px solid var(--border);
   }
 
   .track {
     border-bottom: 1px solid var(--border);
+
+    &.open {
+      .track-toggle {
+        transform: rotate(45deg);
+        color: var(--accent);
+      }
+
+      .track-body {
+        grid-template-rows: 1fr;
+      }
+    }
   }
 
   .track-head {
@@ -255,19 +276,10 @@
     flex-shrink: 0;
   }
 
-  .track.open .track-toggle {
-    transform: rotate(45deg);
-    color: var(--accent);
-  }
-
   .track-body {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.25s ease;
-  }
-
-  .track.open .track-body {
-    grid-template-rows: 1fr;
   }
 
   .track-body-inner {
@@ -279,21 +291,26 @@
     gap: 40px;
     flex-wrap: wrap;
     padding: 4px 0 28px;
-  }
 
-  .track-lyrics, .track-credits {
-    flex: 1;
-    min-width: 220px;
-  }
+    .track-lyrics, .track-credits {
+      flex: 1;
+      min-width: 220px;
+    }
 
-  .track-content h4 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--concrete-dim);
-    margin-bottom: 10px;
+    h4 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--concrete-dim);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 560px) {
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 
   .lyrics-text {
@@ -313,16 +330,16 @@
     margin: 0;
     padding: 0;
     font-size: 0.9rem;
-  }
 
-  .credits-list li {
-    padding: 4px 0;
-    color: var(--concrete);
-  }
+    li {
+      padding: 4px 0;
+      color: var(--concrete);
+    }
 
-  .credits-list b {
-    color: var(--ink);
-    font-weight: 600;
+    b {
+      color: var(--ink);
+      font-weight: 600;
+    }
   }
 
   .album-credit {
@@ -333,7 +350,7 @@
 
   /* VIDEO */
   .video-section {
-    padding: 0 0 80px;
+    padding: 0 0 40px;
     margin-top: 40px;
   }
 
@@ -341,50 +358,35 @@
     position: relative;
     padding-top: 56.25%;
     border: 1px solid var(--border);
-  }
 
-  .video-embed iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   /* PHOTO STRIP */
   .photo-strip {
-    display: flex;
-    gap: 0;
-  }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 
-  .photo-strip img {
-    flex: 1 1 0;
-    min-width: 0;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    display: block;
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 560px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .photo-wrap {
-    padding-bottom: 100px;
-  }
-
-  @media (max-width: 560px) {
-    .photo-strip {
-      flex-direction: column;
-    }
-
-    .photo-wrap {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .album-head { flex-direction: column; gap: 20px; }
-    .album-cover { width: 100%; height: auto; }
-    .track-content { flex-direction: column; gap: 20px; }
+    padding-bottom: 40px;
   }
 </style>
 </head>
@@ -405,11 +407,10 @@
 <section class="album" id="blague">
   <div class="wrap">
     <div class="album-head">
-      <img class="album-cover" src="assets/img/capa-blague.jpg" alt="Capa do álbum Blague">
-      <div>
-        <span class="eyebrow">Álbum de estreia</span>
+      <div class="album-cover" role="img" aria-label="Capa do álbum Blague"></div>
+      <div class="album-meta-wrapper">
         <h2 class="album-title">Blague</h2>
-        <p class="album-meta">Gravado em 2011 · Lançado em 2024 · 9 faixas</p>
+        <p class="album-meta">Gravado em 2011 · Lançado em 2024</p>
 
         <div class="cta-row" id="cta-row"></div>
       </div>
